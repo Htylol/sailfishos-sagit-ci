@@ -39,19 +39,22 @@ jobs:
         libncurses5-dev libsdl1.2-dev libssl-dev libwxgtk3.0-dev \
         libxml2 libxml2-utils lzop pngcrush rsync schedtool \
         squashfs-tools xsltproc yasm zip zlib1g-dev git
+
     - name: Download repo bin file
       run: |
         mkdir -p ~/bin
         wget 'https://storage.googleapis.com/git-repo-downloads/repo' -P ~/bin
         chmod +x ~/bin/repo
+        git config --global user.name "Htylol"
+        git config --global user.email "dixperm909@yandex.ru"
 
     - name: Downloading source code
       run: |
         source hadk.env
         mkdir -p $ANDROID_ROOT
         cd $ANDROID_ROOT
-        repo init -u git://github.com/mer-hybris/android.git -b hybris-16.0 --depth=1 --no-repo-verify
-        repo sync --fetch-submodules --force-sync -c --no-clone-bundle --no-tags
+        repo init -u git://github.com/mer-hybris/android.git -b hybris-16.0 --depth=1
+        repo sync -j8 -c --no-clone-bundle --no-tags
     
     - name: Clone device spec source
       run: |
